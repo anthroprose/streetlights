@@ -7,7 +7,7 @@
 #include <JeeLib.h>
 #include "HughesyShiftBrite.h"
 
-#define NODEID 2
+#define NODEID 1
 #define BUFFER_SIZE 64
 #define DISPLAY_INTERVAL 500 // ms
 
@@ -63,14 +63,19 @@ void setup () {
 }
 
 void loop () {
-  if (rf12_recvDone() && rf12_crc == 0 && rf12_len == 1) {
-    lastSeq = rf12_data[0];
-    gotPacket();
-  }
+  
+  if (rf12_recvDone() && rf12_crc == 0 && rf12_len == 3) {
     
-  if (displayTimer.poll(DISPLAY_INTERVAL)) {
-    Serial.print("Packet - ");
-    Serial.println(lastSeq);
-    sb.sendColour(lastSeq,lastSeq,lastSeq);
+    sb.sendColour(rf12_data[0],rf12_data[1],rf12_data[2]);
+    sb.sendColour(rf12_data[0],rf12_data[1],rf12_data[2]);
+    
+    Serial.print("Colors: ");
+    Serial.print(rf12_data[0]);
+    Serial.print(",");
+    Serial.print(rf12_data[1]);
+    Serial.print(",");
+    Serial.println(rf12_data[2]);
+    
   }
+  
 }

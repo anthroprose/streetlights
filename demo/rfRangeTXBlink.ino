@@ -6,7 +6,7 @@
 
 #include <JeeLib.h>
 
-byte outData, pending;
+byte outData[3], pending;
 MilliTimer sendTimer;
 
 void setup() {
@@ -16,12 +16,62 @@ void setup() {
 }
 
 void loop() {
+  
+  outData[0] = 0;
+  outData[1] = 0;
+  outData[2] = 0;
+  
   rf12_recvDone();
-
-  if (outData > 255) { outData = 0; }
     
   if (sendTimer.poll(100)) {
-    ++outData;
+    ++outData[0];
+    pending = 1;
+  }
+
+  for (int i = 1; i<4;i++) {
+  
+    if (pending && rf12_canSend()) {
+      rf12_sendStart(i, &outData, sizeof outData);
+      Serial.println("Sending");
+      delay(1000);
+    }
+  
+    pending = 0;
+        
+  }
+    
+  outData[0] = 0;
+  outData[1] = 0;
+  outData[2] = 0;
+  
+  rf12_recvDone();
+    
+  if (sendTimer.poll(100)) {
+    ++outData[1];
+    pending = 1;
+  }
+
+  for (int i = 1; i<4;i++) {
+  
+    if (pending && rf12_canSend()) {
+      rf12_sendStart(i, &outData, sizeof outData);
+      Serial.println("Sending");
+      delay(1000);
+      
+    }
+  
+    pending = 0;
+        
+  }
+  
+  outData[0] = 0;
+  outData[1] = 0;
+  outData[2] = 0;
+  
+  rf12_recvDone();
+    
+  if (sendTimer.poll(100)) {
+    ++outData[2];
     pending = 1;
   }
 
@@ -30,6 +80,7 @@ void loop() {
     if (pending && rf12_canSend()) {
       rf12_sendStart(i, &outData, sizeof outData);
       Serial.println("Sending");  
+      delay(1000);
     }
   
     pending = 0;

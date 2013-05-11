@@ -7,6 +7,7 @@
 #include <JeeLib.h>
 #include "HughesyShiftBrite.h"
 
+#define NODEID 2
 #define BUFFER_SIZE 64
 #define DISPLAY_INTERVAL 500 // ms
 
@@ -54,7 +55,7 @@ static void updateHistory () {
 
 void setup () {
   Serial.begin(57600);
-  rf12_initialize('R', RF12_868MHZ, 88);
+  rf12_initialize(NODEID, RF12_868MHZ, 88);
   // synchronize the display to 0.1s clock transitions
   displayTimer.set(DISPLAY_INTERVAL - millis() % DISPLAY_INTERVAL - 1);
   Serial.println("Setup");

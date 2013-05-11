@@ -11,21 +11,28 @@ MilliTimer sendTimer;
 
 void setup() {
   Serial.begin(57600);
-  rf12_initialize('T', RF12_868MHZ, 88);
+  rf12_initialize(13, RF12_868MHZ, 88);
   Serial.println("Setup");
 }
 
 void loop() {
   rf12_recvDone();
 
+  if (outData > 255) { outData = 0; }
+    
   if (sendTimer.poll(100)) {
     ++outData;
     pending = 1;
   }
 
-  if (pending && rf12_canSend()) {
-    rf12_sendStart('R', &outData, sizeof outData);
-    Serial.println("Sending");  
+  for (int i = 1; i<4;i++) {
+  
+    if (pending && rf12_canSend()) {
+      rf12_sendStart(i, &outData, sizeof outData);
+      Serial.println("Sending");  
+    }
+  
     pending = 0;
+        
   }
 }

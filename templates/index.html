@@ -6,30 +6,27 @@
 		<link href="static/css/bootstrap-responsive.css" rel="stylesheet">
 		<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<script src="static/js/jquery.js"></script>
-		<link rel="stylesheet" media="screen" type="text/css" href="static/css/colorpicker.css" />
-		<script type="text/javascript" src="static/js/colorpicker.js"></script>
+		<link rel="stylesheet" media="screen" type="text/css" href="static/css/jquery.minicolors.css" />
+		<script type="text/javascript" src="static/js/jquery.minicolors.js"></script>
 		<script>
 		
 		$(document).ready(function (){
 			
-			$('#colorpickerHolder').ColorPicker({
-									flat: true,
-									onSubmit: function(hsb, hex, rgb, el) {
-										$('body').css('backgroundColor', '#' + hex);
-										setjson(rgb.r,rgb.g,rgb.b)
-									},
-									onChange: function (hsb, hex, rgb) {
-										$('body').css('backgroundColor', '#' + hex);
-										setjson(rgb.r,rgb.g,rgb.b)
-									}
-								});
+			$('#colorpicker').minicolors({
+				inline:true,
+				control: 'wheel',
+				change: function(hex, opacity) {
+					cObj = $(this).minicolors('rgbObject');
+					setjson(cObj.r, cObj.g, cObj.b);
+					$("body").css("background-color", $(this).minicolors('value'));
+                }
+			});
 			
 		});
 		
 		function setjson(r,g,b) {
-			
 			$('#jcolors').val('[['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + ']]');
-			
+			$('#colortxt').text($('#jcolors').val());
 		}
 			
 		function pushColors() {
@@ -39,7 +36,7 @@
 				  dataType: 'json',
 				  data: {'colors':$('#jcolors').val()},
 				  success: function(data) {
-				  	console.debug(data);
+				  	
 				  },
 				});
 			
@@ -50,13 +47,15 @@
     <body>
 		<div class="container-fluid">
 			<div class="row-fluid">
-				<div class="span4">
-					<textarea name="jcolors" id="jcolors" rows="12"></textarea>
-				</div>
-				<div class="span5">
-					<p id="colorpickerHolder"></p>
+				<div class="span3">
+					<input type="text" name="colorpicker" id="colorpicker" />
 					<br /><br />
 					<div class="btn btn-large btn-success" href="" onclick="pushColors();">Push</div>
+					<br /><br />
+					<textarea name="jcolors" id="jcolors" rows="12"></textarea>
+					<p>
+						This website also supports direct calls to the <a href="/help">color setting API</a>. 
+					</p>
 				</div>
 			</div>
 		</div>

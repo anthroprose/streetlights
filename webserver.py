@@ -1,6 +1,7 @@
 import json
 import sys
 import serial
+import time
 
 from pprint import pprint
 from flask import Flask
@@ -15,8 +16,6 @@ def set_colors(jcolors):
         
         colors = json.loads(str(jcolors))
         
-        pprint(len(colors))
-        
         i=0
         for c in colors:
             i=i+1
@@ -29,6 +28,7 @@ def set_colors(jcolors):
     except:
         pprint("Unhandled Exception: " + str(sys.exc_info()))
     
+    time.sleep(.5)
     return json.dumps(jcolors)
 
 if __name__ == "__main__":
@@ -42,6 +42,10 @@ if __name__ == "__main__":
     def set_color_handler():
         colors = request.args.get('colors', '')
         return set_colors(colors)
+    
+    @app.route('/help')
+    def help_handler():
+        return render_template('help.html')
     
     @app.route('/')
     def index_handler():

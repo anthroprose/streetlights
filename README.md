@@ -7,9 +7,11 @@ JeeNode + Megabrite + Solar Panels = Distributed Mesh Streetlights
 Install
 ----------------------------------------------
 
-pip install flask flask-jsonpify
+pip install flask pyserial json
 
+Running
+----------------------------------------------
+Edit the webserver.py file to match your ttyUSB device number.
 
-Arduino
----------------------------------------
-https://github.com/interactive-matter/aJson
+sudo python ./webserver.py
+

@@ -3,12 +3,13 @@
 byte outData[numNodes][3];
 
 void setup() {
+  
   Serial.begin(57600);
   rf12_initialize(26, RF12_915MHZ, 44);
-  Serial.println("Setup");
+  
 }
 
-void sendSig() {
+void sendAll() {
 
   rf12_recvDone();
       
@@ -22,16 +23,7 @@ void sendSig() {
             header |= RF12_HDR_DST | i;
             
       rf12_sendStart(header, &outData[i-1], sizeof outData[i-1], 1);
-      delay(50);
-      Serial.print("Sending node:");  
-      Serial.print(i);  
-      Serial.print(" rgb:");  
-      Serial.print(outData[i-1][0]);  
-      Serial.print(",");  
-      Serial.print(outData[i-1][1]);
-      Serial.print(",");  
-      Serial.print(outData[i-1][2]);
-      Serial.println("");  
+      delay(10);
       rf12_recvDone();
 
     }
@@ -42,77 +34,58 @@ void sendSig() {
   
 }
 
+void sendOne(byte a, byte r, byte g, byte b) {
+
+  byte od[3] = { r, g, b};
+  
+  rf12_recvDone();
+      
+  if (rf12_canSend()) {
+    
+    byte header = 0;
+    
+    if (a)
+          header |= RF12_HDR_DST | a;
+          
+    rf12_sendStart(header, &od, sizeof od, 1);
+    delay(10);
+    rf12_recvDone();
+
+  }
+
+  rf12_recvDone();
+  
+}
+
+
 void loop() {
   
-  outData[0][0] = 200;
-  outData[0][1] = 0;
-  outData[0][2] = 0;
-  
-  outData[1][0] = 0;
-  outData[1][1] = 200;
-  outData[1][2] = 0;
-  
-  outData[2][0] = 0;
-  outData[2][1] = 0;
-  outData[2][2] = 200;
-  
-  outData[3][0] = 200;
-  outData[3][1] = 0;
-  outData[3][2] = 0;
+  while (Serial.available() > 0) {
 
-  outData[4][0] = 0;
-  outData[4][1] = 200;
-  outData[4][2] = 0;
+    byte nodeID = Serial.parseInt();
+    byte red = Serial.parseInt();
+    byte green = Serial.parseInt();
+    byte blue = Serial.parseInt();
 
-  sendSig();
-  delay(1000);
-  
-  outData[0][0] = 0;
-  outData[0][1] = 200;
-  outData[0][2] = 0;
-  
-  outData[1][0] = 0;
-  outData[1][1] = 0;
-  outData[1][2] = 200;
-  
-  outData[2][0] = 200;
-  outData[2][1] = 0;
-  outData[2][2] = 0;
+    if (Serial.read() == '\n') {
 
-  outData[3][0] = 0;
-  outData[3][1] = 200;
-  outData[3][2] = 0;
+        sendOne(nodeID,red,green,blue);
+        Serial.print("Sent: ");
+        Serial.print(nodeID);
+        Serial.print(':');
+        Serial.print(red);
+        Serial.print(',');
+        Serial.print(green);
+        Serial.print(',');
+        Serial.print(blue);
+        Serial.println("");
+        
+    }
+    
+    delay(50);
+    
+  }
 
-  outData[4][0] = 200;
-  outData[4][1] = 0;
-  outData[4][2] = 0;
-
-  sendSig();
-  delay(1000);
-  
-  outData[0][0] = 0;
-  outData[0][1] = 0;
-  outData[0][2] = 200;
-  
-  outData[1][0] = 200;
-  outData[1][1] = 0;
-  outData[1][2] = 0;
-
-  outData[2][0] = 0;
-  outData[2][1] = 200;
-  outData[2][2] = 0;
-
-  outData[3][0] = 200;
-  outData[3][1] = 0;
-  outData[3][2] = 0;
-
-  outData[4][0] = 0;
-  outData[4][1] = 200;
-  outData[4][2] = 0;
-
-  sendSig();
-  delay(1000);
-  
 }
 
 void rainbowCycle() {
@@ -127,7 +100,7 @@ void rainbowCycle() {
        
     }  
     
-    sendSig(); 
+    sendAll(); 
     delay(1000);
     
   }

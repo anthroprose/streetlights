@@ -1,3 +1,9 @@
+/// @dir rfRangeRX
+/// Receive sketch used to report quality of reception.
+// 2011-05-14 <jc@wippler.nl> http://opensource.org/licenses/mit-license.php
+
+// Based on a sample implementation by Steve Evans (@tankslappa).
+
 #include <JeeLib.h>
 #include "HughesyShiftBrite.h"
 
@@ -6,7 +12,7 @@ HughesyShiftBrite sb;
 void setup () {
   
   Serial.begin(57600);
-  rf12_initialize(4, RF12_915MHZ, 44);
+  rf12_initialize(1, RF12_915MHZ, 44);
   
   Serial.println("Setup");
   
@@ -29,8 +35,8 @@ void loop () {
   
   if (rf12_recvDone() && rf12_crc == 0 && rf12_len == 3) {
     
-    sb.sendColour(rf12_data[0],rf12_data[1],rf12_data[2]);
-    sb.sendColour(rf12_data[0],rf12_data[1],rf12_data[2]);
+    sb.sendColour(rf12_data[0]*3,rf12_data[1]*3,rf12_data[2]*3);
+    sb.sendColour(rf12_data[0]*3,rf12_data[1]*3,rf12_data[2]*3);
 
     Serial.print((int) rf12_hdr);
     Serial.print(':'); 

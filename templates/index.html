@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    	<title>Effigy Perimiter Lighting</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="static/css/bootstrap-responsive.css" rel="stylesheet">
+		<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<script src="static/js/jquery.js"></script>
+		<link rel="stylesheet" media="screen" type="text/css" href="static/css/colorpicker.css" />
+		<script type="text/javascript" src="static/js/colorpicker.js"></script>
+		<script>
+		
+		$(document).ready(function (){
+			
+			$('#colorpickerHolder').ColorPicker({
+									flat: true,
+									onSubmit: function(hsb, hex, rgb, el) {
+										$('body').css('backgroundColor', '#' + hex);
+										setjson(rgb.r,rgb.g,rgb.b)
+									},
+									onChange: function (hsb, hex, rgb) {
+										$('body').css('backgroundColor', '#' + hex);
+										setjson(rgb.r,rgb.g,rgb.b)
+									}
+								});
+			
+		});
+		
+		function setjson(r,g,b) {
+			
+			$('#jcolors').val('[['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + ']]');
+			
+		}
+			
+		function pushColors() {
+			
+			$.ajax({
+				  url: '/colors/',
+				  dataType: 'json',
+				  data: {'colors':$('#jcolors').val()},
+				  success: function(data) {
+				  	console.debug(data);
+				  },
+				});
+			
+		}
+		
+		</script>
+    </head>
+    <body>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span4">
+					<textarea name="jcolors" id="jcolors" rows="12"></textarea>
+				</div>
+				<div class="span5">
+					<p id="colorpickerHolder"></p>
+					<br /><br />
+					<div class="btn btn-large btn-success" href="" onclick="pushColors();">Push</div>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>    

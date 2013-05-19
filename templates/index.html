@@ -5,59 +5,41 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="static/css/bootstrap-responsive.css" rel="stylesheet">
 		<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
-		<script src="static/js/jquery.js"></script>
-		<link rel="stylesheet" media="screen" type="text/css" href="static/css/jquery.minicolors.css" />
-		<script type="text/javascript" src="static/js/jquery.minicolors.js"></script>
+		<link rel="stylesheet" href="static/css/farbtastic.css" type="text/css" />
+		
+		<script src="static/js/jquery.min.js"></script>
+		<script type="text/javascript" src="static/js/farbtastic.js"></script>
+		<script type="text/javascript" src="static/js/jquery.ui.ipad.altfix.js"></script>
+ 		<script src="static/js/api.js"></script>
+ 		
 		<script>
+		
+		f = ''
 		
 		$(document).ready(function (){
 			
-			$('#colorpicker').minicolors({
-				inline:true,
-				control: 'wheel',
-				change: function(hex, opacity) {
-					cObj = $(this).minicolors('rgbObject');
-					setjson(cObj.r, cObj.g, cObj.b);
-					$("body").css("background-color", $(this).minicolors('value'));
-                }
+			f = $.farbtastic('#colorpicker');
+			$('#colorpicker').addTouch();
+			f.linkTo(function () {
+				
+				$('body').css('background-color', f.color);
+				
 			});
 			
 		});
-		
-		function setjson(r,g,b) {
-			$('#jcolors').val('[['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + '],['+ r + ',' + g + ',' + b + ']]');
-			$('#colortxt').text($('#jcolors').val());
-		}
-			
-		function pushColors() {
-			
-			$.ajax({
-				  url: '/colors/',
-				  dataType: 'json',
-				  data: {'colors':$('#jcolors').val()},
-				  success: function(data) {
-				  	
-				  },
-				});
-			
-		}
-		
+
 		</script>
     </head>
     <body>
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span3">
-					<input type="text" name="colorpicker" id="colorpicker" />
-					<br /><br />
-					<div class="btn btn-large btn-success" href="" onclick="pushColors();">Push</div>
-					<br /><br />
-					<textarea name="jcolors" id="jcolors" rows="12"></textarea>
-					<p>
-						This website also supports direct calls to the <a href="/help">color setting API</a>. 
-					</p>
-				</div>
-			</div>
+		<div class="container">
+			<h1>Color War!</h1>
+			<div id="colorpicker"></div>	
+			<br /><br />
+			<div class="btn btn-large btn-success" href="" onclick="pushHexColors(f.color);">Push</div>
+			<br /><br />
+			<p>
+				This website also supports direct calls to the <a href="/help">color setting API</a>. 
+			</p>
 		</div>
     </body>
 </html>    

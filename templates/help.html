@@ -6,73 +6,65 @@
 		<link href="static/css/bootstrap-responsive.css" rel="stylesheet">
 		<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<script src="static/js/jquery.js"></script>
+		<script src="static/js/api.js"></script>
     </head>
     <body>
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span10">
-					If you would like to custom code effects. The API is rate limited to 1 per second. This could be as simple as copying this page's HTML and hard-coding a javascript loop to produce the color and timing effects you are looking for.<br />
+		<div class="container">
+					
+					If you would like to custom code effects, you may do so. This could be as simple as copying this page's HTML and hard-coding a javascript loop to produce the color and timing effects you are looking for. Once you start making sub-second calls, Serial+RF latency may means nodes do not receive proper signals.<br />
+					Just include jquery.js and api.js like in the header of this file.<br />
+					Any API calls/patterns are being logged and may be re-played at any time during this or any future event. In addition, patterns may be commited to github under https://github.com/anthroprose/streetlights
 					
 					<script>
-					
-						function pushColors(carray) {
-			
-							$.ajax({
-								  url: '/colors/',
-								  dataType: 'json',
-								  data: {'colors':carray}
-								});
-						}
 						
 						function test() {
 				
-							pushColors('[[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191]]');
-							setTimeout("pushColors('[[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219]]')", 2000);
-							setTimeout("pushColors('[[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0]]')", 3000);
-							setTimeout("pushColors('[[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]')", 4000);
-							setTimeout("pushColors('[[0,0,0],[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]')", 5000);
-							setTimeout("pushColors('[[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]')", 6000);
-							setTimeout("pushColors('[[0,0,0],[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]')", 7000);
-							setTimeout("pushColors('[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255]]')", 8000);
-							setTimeout("pushColors('[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255],[0,0,0]]')", 9000);
-							setTimeout("pushColors('[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0]]')", 10000);
-							setTimeout("pushColors('[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255],[255,255,255],[0,0,0],[0,0,0],[0,0,0]]')", 11000);
-							setTimeout("pushColors('[[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255]]')", 12000);
-							
+							pushColors(0,0,0);
+							setTimeout("pushColors(255,255,255)", 2000);
+							setTimeout("pushColors(0,0,0)", 3000);
+							setTimeout("pushColors(255,255,255)", 4000);
+							setTimeout("pushColors(0,0,0)", 5000);
+							setTimeout("pushColor(1,255,255,255)", 6000);
+							setTimeout("pushColor(12,255,255,255)", 7000);
+							setTimeout("pushColor(2,255,255,255)", 8000);
+							setTimeout("pushColor(11,255,255,255)", 9000);
+							setTimeout("pushColor(3,255,255,255)", 10000);
+							setTimeout("pushColor(10,255,255,255)", 11000);
+							setTimeout("pushColor(4,255,255,255)", 12000);
+							setTimeout("pushColor(9,255,255,255)", 13000);
+							setTimeout("pushColor(5,255,255,255)", 14000);
+							setTimeout("pushColor(8,255,255,255)", 15000);
+							setTimeout("pushColor(6,255,255,255)", 16000);
+							setTimeout("pushColor(7,255,255,255)", 17000);
 						}
 						
 					</script>
+<p>
 					<pre>
-function pushColors(carray) {
-
-	$.ajax({
-		url: '/colors/',
-		dataType: 'json',
-		data: {'colors':carray}
-	});
-}
-
 function test() {
-
-	pushColors('[[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191],[7,237,191]]');
-	setTimeout("pushColors('[[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219],[191,7,219]]')", 2000);
-	setTimeout("pushColors('[[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0],[255,221,0]]')", 3000);
-	setTimeout("pushColors('[[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]')", 4000);
-	setTimeout("pushColors('[[0,0,0],[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]')", 5000);
-	setTimeout("pushColors('[[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]')", 6000);
-	setTimeout("pushColors('[[0,0,0],[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]')", 7000);
-	setTimeout("pushColors('[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255]]')", 8000);
-	setTimeout("pushColors('[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255],[0,0,0]]')", 9000);
-	setTimeout("pushColors('[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0],[255,255,255],[0,0,0],[0,0,0]]')", 10000);
-	setTimeout("pushColors('[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[255,255,255],[255,255,255],[0,0,0],[0,0,0],[0,0,0]]')", 11000);
-	setTimeout("pushColors('[[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255],[255,255,255]]')", 12000);
-	
+				
+	pushColors(0,0,0);
+	setTimeout("pushColors(255,255,255)", 2000);
+	setTimeout("pushColors(0,0,0)", 3000);
+	setTimeout("pushColors(255,255,255)", 4000);
+	setTimeout("pushColors(0,0,0)", 5000);
+	setTimeout("pushColor(1,255,255,255)", 6000);
+	setTimeout("pushColor(12,255,255,255)", 7000);
+	setTimeout("pushColor(2,255,255,255)", 8000);
+	setTimeout("pushColor(11,255,255,255)", 9000);
+	setTimeout("pushColor(3,255,255,255)", 10000);
+	setTimeout("pushColor(10,255,255,255)", 11000);
+	setTimeout("pushColor(4,255,255,255)", 12000);
+	setTimeout("pushColor(9,255,255,255)", 13000);
+	setTimeout("pushColor(5,255,255,255)", 14000);
+	setTimeout("pushColor(8,255,255,255)", 15000);
+	setTimeout("pushColor(6,255,255,255)", 16000);
+	setTimeout("pushColor(7,255,255,255)", 17000);
 }
 					</pre>
-					
+<br />
 					<div class="btn btn-large btn-success" href="" onclick="test();">Test</div>
-				</div>
-			</div>
+</p>
 		</div>
     </body>
 </html>    

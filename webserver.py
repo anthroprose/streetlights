@@ -8,28 +8,37 @@ from flask import Flask
 from flask import render_template
 from flask import request
 
-ttyusb = '/dev/ttyUSB0'
+ttyusb = '/dev/ttyUSB1'
 
-def set_colors(jcolors):
+def set_colors(r,g,b):
 
     try:
         
-        colors = json.loads(str(jcolors))
-        
-        i=0
-        for c in colors:
-            i=i+1
-            pprint(str(i) + ',' + str(c[0]) + ',' + str(c[1]) + ',' + str(c[2]))
-            ser.write(str(i) + ',' + str(c[0]) + ',' + str(c[1]) + ',' + str(c[2]) + "\n")
+        pprint('0,' + str(r) + ',' + str(g) + ',' + str(b))
+        ser.write('0,' + str(r) + ',' + str(g) + ',' + str(b) + "\n")
             
     except Exception as e:
         pprint("Unhandled Exception: " + e.reason)
         
     except:
         pprint("Unhandled Exception: " + str(sys.exc_info()))
-    
-    time.sleep(.5)
-    return json.dumps(jcolors)
+
+    return json.dumps(r,g,b)
+
+def set_color(i,r,g,b):
+
+    try:
+        
+        pprint(str(i) + ',' + str(r) + ',' + str(g) + ',' + str(b))
+        ser.write(str(i) + ',' + str(r) + ',' + str(g) + ',' + str(b) + "\n")
+            
+    except Exception as e:
+        pprint("Unhandled Exception: " + e.reason)
+        
+    except:
+        pprint("Unhandled Exception: " + str(sys.exc_info()))
+
+    return json.dumps(i,r,g,b)
 
 if __name__ == "__main__":
     
@@ -40,8 +49,11 @@ if __name__ == "__main__":
     
     @app.route('/colors/')
     def set_color_handler():
-        colors = request.args.get('colors', '')
-        return set_colors(colors)
+        return set_colors(request.args.get('r', ''),request.args.get('g', ''),request.args.get('b', ''))
+    
+    @app.route('/color/')
+    def set_color_handler():
+        return set_color(request.args.get('i', ''), request.args.get('r', ''),request.args.get('g', ''),request.args.get('b', ''))
     
     @app.route('/help')
     def help_handler():

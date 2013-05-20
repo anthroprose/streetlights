@@ -25,6 +25,7 @@ def set_colors(r,g,b):
 
     return json.dumps(r,g,b)
 
+
 def set_color(i,r,g,b):
 
     try:
@@ -48,7 +49,7 @@ if __name__ == "__main__":
     app.config.from_object(__name__)
     
     @app.route('/colors/')
-    def set_color_handler():
+    def set_colors_handler():
         return set_colors(request.args.get('r', ''),request.args.get('g', ''),request.args.get('b', ''))
     
     @app.route('/color/')

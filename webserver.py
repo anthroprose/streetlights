@@ -8,7 +8,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 
-ttyusb = '/dev/ttyUSB1'
+ttyusb = '/dev/ttyUSB0'
 
 def set_colors(r,g,b):
 
@@ -40,6 +40,7 @@ def set_color(i,r,g,b):
         pprint("Unhandled Exception: " + str(sys.exc_info()))
 
     return json.dumps(i,r,g,b)
+
 
 if __name__ == "__main__":
     

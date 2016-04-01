@@ -7,7 +7,7 @@ JeeNode + Megabrite + Solar Panels = Distributed Mesh Streetlights
 Install
 ----------------------------------------------
 
-pip install flask pyserial json
+pip install flask pyserial simplejson
 
 Running
 ----------------------------------------------
